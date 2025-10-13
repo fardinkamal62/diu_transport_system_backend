@@ -1,4 +1,4 @@
-package com.fardinkamal62.diu_transport_system_backend.service;
+package com.fardinkamal62.diu_transport_system_backend.services;
 
 import com.fardinkamal62.diu_transport_system_backend.entities.Coordinate;
 import org.slf4j.Logger;

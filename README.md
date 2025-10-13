@@ -14,11 +14,11 @@ $$$$$$$  |$$$$$$\ \$$$$$$  |         $$ |$$ |     \$$$$$$$ |$$ |  $$ |$$$$$$$  |
 
 # DIU Transport System Backend
 
-Version: 0.0.1-SNAPSHOT
+Version: 0.1.0-SNAPSHOT
 
 ## 🌟 Project Overview
 
-This is the Spring Boot implementation of the [DIU Transport App project](https://github.com/fardinkamal62/diu_transport_app)'s Node.JS backend.
+This is the Spring Boot implementation of the [DIU Transport App project](https://github.com/fardinkamal62/diu_transport_app)'s Node.js backend.
 
 DIU Transport App is a mobile application that provides information about the transportation services available and location of the vehicles in real-time.
 
@@ -26,7 +26,7 @@ DIU Transport App is a mobile application that provides information about the tr
 - **Language:** Java 25
 - **Backend Framework:** Spring Boot
 - **Build Tool:** Maven
-- **Database:** PostgreSQL, Redis
+- **Database:** PostgresSQL, Redis
 - **WebSocket:** Socket.IO (via netty-socketio)
 - **Security:** Spring Security
 
@@ -35,7 +35,7 @@ DIU Transport App is a mobile application that provides information about the tr
 ### Development Environment
 - **Java Development Kit (JDK):** 25
 - **Maven:** 3.9.9
-- **PostgreSQL:** 14+
+- **PostgresSQL:** 14+
 - **Redis:** 6+
 
 ### Installation Steps
@@ -51,8 +51,8 @@ cd diu_transport_system_backend
 ```
 
 #### 3. Configure the Database
-- Install and set up PostgreSQL and Redis on your local machine or server.
-- Create a new PostgreSQL database for the application.
+- Install and set up PostgresSQL and Redis on your local machine or server.
+- Create a new PostgresSQL database for the application.
 - Start the Redis server.
 - Add the necessary environment variables (see Environment Variables section below).
 
@@ -75,17 +75,17 @@ The Socket.IO server operates on port 8085 (default configuration).
 
 ### Client → Server Events
 
-| Event Name | Payload                                      | Description                           |
-|------------|--------------------------------------------|---------------------------------------|
-| `location` | `{ latitude, longitude, vehicleId, vehicleName }` | Send vehicle location updates          |
+| Event Name | Payload                                            | Description                            |
+|------------|----------------------------------------------------|----------------------------------------|
+| `location` | `{ latitude, longitude, vehicleId, vehicleName }`  | Send vehicle location updates          |
 
 
 ### Server → Client Events
 
-| Event Name | Payload                                      | Description                           |
-|------------|--------------------------------------------|---------------------------------------|
-| `location` | `{ latitude, longitude, vehicleId, vehicleName }` | Broadcast vehicle location to clients  |
-| `error`    | `{ message }`                              | Error messages                        |
+| Event Name | Payload                                           | Description                           |
+|------------|---------------------------------------------------|---------------------------------------|
+| `location` | `{ latitude, longitude, vehicleId, vehicleName }` | Broadcast vehicle location to clients |
+| `error`    | `{ message }`                                     | Error messages                        |
 
 ## 🔒 Environment Variables
 
@@ -97,27 +97,44 @@ DB_URL=jdbc:postgresql://localhost:5432/diu_transport_system
 DB_USERNAME=postgres
 REDIS_HOST=localhost
 REDIS_PORT=6379
+JWT_SECRET=your_super_secret_strong_key
 ```
 
 ## 📂 Project Structure
 
 ```
 src/main/java/com/fardinkamal62/diu_transport_system_backend/
-├── config                  # Configuration classes
-│   ├── RedisConfig.java    # Redis connection configuration
-│   ├── SecurityConfig.java # Spring Security configuration
-│   └── WebConfig.java      # CORS and other web configurations
-├── dto                     # Data Transfer Objects
-│   └── ErrorResponseDto.java   # Error response structure
-├── entities                # Domain models/entities
-│   ├── Coordinate.java     # Location coordinate model
-├── service                 # Business logic
-│   └── RedisService.java   # Redis operations
-└── socket                  # Socket.IO related components
-    ├── MessageData.java    # Socket message structure
-    ├── SocketEventHandler.java  # Socket event handlers
+├── config                              # Configuration classes
+│   ├── RedisConfig.java                # Redis connection configuration
+│   ├── SecurityConfig.java             # Spring Security configuration
+│   └── WebConfig.java                  # CORS and other web configurations
+├── controller                          # REST API controllers
+│   └── AuthController.java             # Authentication endpoints
+│   └── AdminController.java            # Admin related endpoints
+├── dtos                                # Data Transfer Objects
+│   └── ErrorResponseDto.java           # Error response structure
+│   └── AddDriverDto.java               # Add driver request structure
+│   └── AdminLoginRequestDto.java       # Admin authentication request structure
+│   └── ApiResponseDto.java             # Generic API response structure
+│   └── AuthResponseDto.java            # Authentication response structure
+│   └── DriverResponseDto.java          # Driver response structure
+├── entities                            # Domain models/entities
+│   ├── Coordinate.java                 # Location coordinate model
+│   └── User.java                       # User entity
+├── repositories                        # Data access layer
+│   └── UserRepository.java             # User repository interface
+├── security                            # Security-related classes
+│   ├── JwtAuthenticationFilter.java    # JWT authentication filter
+│   └── JwtUtils.java                   # JWT utility functions
+├── services                            # Business logic
+│   └── RedisService.java               # Redis operations
+│   └── CustomUserDetails.java          # User details for Spring Security
+│   └── AuthService.java                # Authentication-related operations
+│   └── DriverService.java              # Driver-related operations
+└── socket                              # Socket.IO related components
+    ├── SocketEventHandler.java         # Socket event handlers
     └── config
-        └── SocketConfig.java  # Socket server configuration
+        └── SocketConfig.java           # Socket server configuration
 ```
 
 ## ⚠️ Troubleshooting
@@ -129,7 +146,7 @@ src/main/java/com/fardinkamal62/diu_transport_system_backend/
    - Verify REDIS_HOST and REDIS_PORT environment variables are correct
 
 2. **Database Connection Issues**
-   - Check PostgreSQL is running
+   - Check PostgresSQL is running
    - Verify DB_URL, DB_USERNAME, and DB_PASSWORD are correct
 
 3. **Socket.IO Connection Problems**
