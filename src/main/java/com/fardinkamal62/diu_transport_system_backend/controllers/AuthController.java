@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.client.HttpClientErrorException;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -27,7 +28,7 @@ public class AuthController {
     @PostMapping("/admin")
     public ResponseEntity<AuthResponseDto> adminLogin(@Valid @RequestBody AdminLoginRequestDto loginRequest) {
         if (!loginRequest.isValid()) {
-            return ResponseEntity.badRequest().build();
+            throw new IllegalArgumentException("Either email or username must be provided");
         }
 
         AuthResponseDto authResponse = authService.adminLogin(loginRequest);
@@ -44,5 +45,11 @@ public class AuthController {
     public ResponseEntity<ErrorResponseDto> handleIllegalArgument(IllegalArgumentException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponseDto(ex.getMessage()));
+    }
+
+    @ExceptionHandler(HttpClientErrorException.BadRequest.class)
+    public String handleBadRequest(HttpClientErrorException.BadRequest ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponseDto("Bad request: " + ex.getMessage())).toString();
     }
 }

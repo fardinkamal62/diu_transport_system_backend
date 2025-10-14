@@ -1,6 +1,12 @@
 # Changelog
 
-## [0.1.0-SNAPSHOT] - 13-10-2025 [Current]
+## [0.1.1-SNAPSHOT] - 14-10-2025 [Current]
+
+### Refactor
+
+Improve error handling and validation in authentication process
+
+## [0.1.0-SNAPSHOT] - 13-10-2025
 
 ### Added
 

@@ -7,7 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DiuTransportSystemBackendApplication {
 
     static void main(String[] args) {
+        java.io.File envFile = new java.io.File(".env");
+        if (!envFile.exists()) {
+            throw new RuntimeException(".env file not found in project root.");
+        }
         SpringApplication.run(DiuTransportSystemBackendApplication.class, args);
     }
-
 }
