@@ -3,7 +3,7 @@ package com.fardinkamal62.diu_transport_system_backend.dtos;
 import lombok.Data;
 
 @Data
-public class DriverResponseDto {
+public class AddDriverResponseDto {
     private Long id;
     private String full_name;
     private String phoneNumber;

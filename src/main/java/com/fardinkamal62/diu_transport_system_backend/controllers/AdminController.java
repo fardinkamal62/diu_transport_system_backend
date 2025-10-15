@@ -1,7 +1,7 @@
 package com.fardinkamal62.diu_transport_system_backend.controllers;
 
-import com.fardinkamal62.diu_transport_system_backend.dtos.AddDriverDto;
-import com.fardinkamal62.diu_transport_system_backend.dtos.DriverResponseDto;
+import com.fardinkamal62.diu_transport_system_backend.dtos.AddDriverDtoRequest;
+import com.fardinkamal62.diu_transport_system_backend.dtos.AddDriverResponseDto;
 import com.fardinkamal62.diu_transport_system_backend.dtos.ErrorResponseDto;
 import com.fardinkamal62.diu_transport_system_backend.services.DriverService;
 import com.fardinkamal62.diu_transport_system_backend.dtos.ApiResponseDto;
@@ -22,8 +22,8 @@ public class AdminController {
     }
 
     @PostMapping("/driver")
-    public ApiResponseDto<DriverResponseDto> addDriver(@RequestBody AddDriverDto addDriverDto) {
-        DriverResponseDto driver = driverService.addDriver(addDriverDto);
+    public ApiResponseDto<AddDriverResponseDto> addDriver(@RequestBody AddDriverDtoRequest addDriverDtoRequest) {
+        AddDriverResponseDto driver = driverService.addDriver(addDriverDtoRequest);
         return ApiResponseDto.success(driver);
     }
 

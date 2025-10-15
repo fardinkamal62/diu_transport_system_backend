@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.util.List;
 
 
-public class AddDriverDto {
+public class AddDriverDtoRequest {
     @Setter
     @Getter
     @NotBlank(message = "full_name is required")

@@ -1,7 +1,7 @@
 package com.fardinkamal62.diu_transport_system_backend.services;
 
-import com.fardinkamal62.diu_transport_system_backend.dtos.AddDriverDto;
-import com.fardinkamal62.diu_transport_system_backend.dtos.DriverResponseDto;
+import com.fardinkamal62.diu_transport_system_backend.dtos.AddDriverDtoRequest;
+import com.fardinkamal62.diu_transport_system_backend.dtos.AddDriverResponseDto;
 import com.fardinkamal62.diu_transport_system_backend.entities.User;
 import com.fardinkamal62.diu_transport_system_backend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class DriverService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public DriverResponseDto addDriver(AddDriverDto addDriver) {
+    public AddDriverResponseDto addDriver(AddDriverDtoRequest addDriver) {
         User user = new User();
         user.setName(addDriver.getFull_name());
         user.setPassword(passwordEncoder.encode(addDriver.getPassword()));
@@ -41,11 +41,11 @@ public class DriverService {
 
         User savedUser = userRepository.save(user);
 
-        DriverResponseDto response = new DriverResponseDto();
+        AddDriverResponseDto response = new AddDriverResponseDto();
         response.setId(savedUser.getId());
         response.setFull_name(savedUser.getName());
         response.setStatus(
-                DriverResponseDto.DriverStatus.valueOf(savedUser.getStatus().name())
+                AddDriverResponseDto.DriverStatus.valueOf(savedUser.getStatus().name())
         );
         response.setPhoneNumber(savedUser.getPhoneNumber());
         return response;
