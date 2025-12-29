@@ -24,12 +24,12 @@ public class AuthService {
     }
 
     public AuthResponseDto adminLogin(AdminLoginRequestDto loginRequest) {
-        String identifier = loginRequest.getEmail() != null && !loginRequest.getEmail().isEmpty() ?
-                            loginRequest.getEmail() : loginRequest.getUsername();
-
-        if (identifier == null || identifier.isEmpty()) {
+        if (!loginRequest.hasValidIdentifier()) {
             throw new IllegalArgumentException("Email or username is required");
         }
+
+        String identifier = loginRequest.getEmail() != null && !loginRequest.getEmail().isEmpty() ?
+                            loginRequest.getEmail() : loginRequest.getUsername();
 
         Authentication authentication;
         try {
@@ -51,7 +51,22 @@ public class AuthService {
 
         String jwt = jwtUtils.generateToken(user);
 
-        return new AuthResponseDto(jwt);
+        // Assuming JWT token expiry is 24 hours (86400 seconds) - adjust based on your config
+        long expiresIn = 86400L;
+
+        // Get role from groups
+        String role = user.getGroups() != null && !user.getGroups().isEmpty()
+                ? user.getGroups().get(0).toUpperCase()
+                : "USER";
+
+        return AuthResponseDto.builder()
+                .token(jwt)
+                .tokenType("Bearer")
+                .expiresIn(expiresIn)
+                .username(user.getUsername())
+                .role(role)
+                .issuedAt(java.time.LocalDateTime.now())
+                .build();
     }
 }
 

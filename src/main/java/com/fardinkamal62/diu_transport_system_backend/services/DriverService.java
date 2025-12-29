@@ -22,10 +22,16 @@ public class DriverService {
     }
 
     public AddDriverResponseDto addDriver(AddDriverDtoRequest addDriver) {
+        // Validate user doesn't already exist
+        if (userRepository.existsByEmail(addDriver.getEmail()) ||
+                userRepository.existsByPhoneNumber(addDriver.getPhoneNumber())) {
+            throw new IllegalArgumentException("User already exists with this email or phone number");
+        }
+
         User user = new User();
-        user.setName(addDriver.getFull_name());
+        user.setName(addDriver.getFullName());
         user.setPassword(passwordEncoder.encode(addDriver.getPassword()));
-        user.setStatus(User.Status.valueOf(addDriver.getStatus()));
+        user.setStatus(User.Status.valueOf(addDriver.getStatus().name()));
         user.setGroups(java.util.List.of("driver"));
         user.setPreferredVehicles(
                 addDriver.getPreferredVehicles().stream()
@@ -34,20 +40,21 @@ public class DriverService {
         );
         user.setPhoneNumber(addDriver.getPhoneNumber());
         user.setEmail(addDriver.getEmail());
-        if (userRepository.existsByEmail(addDriver.getEmail()) ||
-                userRepository.existsByPhoneNumber(addDriver.getPhoneNumber())) {
-            throw new IllegalArgumentException("User already exists");
-        }
 
         User savedUser = userRepository.save(user);
 
-        AddDriverResponseDto response = new AddDriverResponseDto();
-        response.setId(savedUser.getId());
-        response.setFull_name(savedUser.getName());
-        response.setStatus(
-                AddDriverResponseDto.DriverStatus.valueOf(savedUser.getStatus().name())
-        );
-        response.setPhoneNumber(savedUser.getPhoneNumber());
-        return response;
+        return AddDriverResponseDto.builder()
+                .id(savedUser.getId())
+                .fullName(savedUser.getName())
+                .email(savedUser.getEmail())
+                .phoneNumber(savedUser.getPhoneNumber())
+                .status(AddDriverResponseDto.DriverStatus.valueOf(savedUser.getStatus().name()))
+                .preferredVehicles(
+                        addDriver.getPreferredVehicles().stream()
+                                .map(vt -> AddDriverResponseDto.VehicleType.valueOf(vt.name()))
+                                .collect(Collectors.toList())
+                )
+                .createdAt(savedUser.getCreatedAt())
+                .build();
     }
 }

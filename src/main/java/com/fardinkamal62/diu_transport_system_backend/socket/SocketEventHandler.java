@@ -61,7 +61,12 @@ public class SocketEventHandler {
             if (!violations.isEmpty()) {
                 String errorMsg = violations.iterator().next().getMessage();
                 logger.error("Invalid location data received from {}: {}", sessionId, errorMsg);
-                client.sendEvent("error", new ErrorResponseDto("Invalid location data"));
+                ErrorResponseDto error = ErrorResponseDto.builder()
+                        .message("Invalid location data")
+                        .status(400)
+                        .timestamp(java.time.LocalDateTime.now())
+                        .build();
+                client.sendEvent("error", error);
                 return;
             }
 
@@ -78,7 +83,12 @@ public class SocketEventHandler {
                 }
             } catch (Exception e) {
                 logger.error("Failed to process location update", e);
-                client.sendEvent("error", new ErrorResponseDto("Failed to update location"));
+                ErrorResponseDto error = ErrorResponseDto.builder()
+                        .message("Failed to update location")
+                        .status(500)
+                        .timestamp(java.time.LocalDateTime.now())
+                        .build();
+                client.sendEvent("error", error);
             }
         };
     }

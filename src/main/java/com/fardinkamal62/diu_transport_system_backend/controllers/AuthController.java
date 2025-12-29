@@ -27,7 +27,7 @@ public class AuthController {
 
     @PostMapping("/admin")
     public ResponseEntity<AuthResponseDto> adminLogin(@Valid @RequestBody AdminLoginRequestDto loginRequest) {
-        if (!loginRequest.isValid()) {
+        if (!loginRequest.hasValidIdentifier()) {
             throw new IllegalArgumentException("Either email or username must be provided");
         }
 
@@ -37,19 +37,31 @@ public class AuthController {
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponseDto> handleBadCredentials(BadCredentialsException ex) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(new ErrorResponseDto("Invalid email or password"));
+        ErrorResponseDto error = ErrorResponseDto.builder()
+                .message("Invalid email or password")
+                .status(HttpStatus.FORBIDDEN.value())
+                .timestamp(java.time.LocalDateTime.now())
+                .build();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponseDto> handleIllegalArgument(IllegalArgumentException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponseDto(ex.getMessage()));
+        ErrorResponseDto error = ErrorResponseDto.builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .timestamp(java.time.LocalDateTime.now())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
     @ExceptionHandler(HttpClientErrorException.BadRequest.class)
-    public String handleBadRequest(HttpClientErrorException.BadRequest ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponseDto("Bad request: " + ex.getMessage())).toString();
+    public ResponseEntity<ErrorResponseDto> handleBadRequest(HttpClientErrorException.BadRequest ex) {
+        ErrorResponseDto error = ErrorResponseDto.builder()
+                .message("Bad request: " + ex.getMessage())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .timestamp(java.time.LocalDateTime.now())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 }

@@ -1,53 +1,43 @@
 package com.fardinkamal62.diu_transport_system_backend.dtos;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AddDriverDtoRequest {
-    @Setter
-    @Getter
-    @NotBlank(message = "full_name is required")
-    @Size(min = 2, max = 100, message = "full_name must be between 2 and 100 characters")
-    private String full_name;
 
-    @Getter
-    @Setter
-    @NotBlank(message = "password is required")
+    @NotBlank(message = "Full name is required")
+    @Size(min = 2, max = 100, message = "Full name must be between 2 and 100 characters")
+    private String fullName;
+
+    @NotBlank(message = "Password is required")
     @Size(min = 8, max = 100, message = "Password must be between 8 and 100 characters")
     private String password;
 
+    @Email(message = "Email should be valid")
+    private String email;
+
+    @Pattern(regexp = "^\\+?[1-9]\\d{1,14}$", message = "Phone number must be valid")
+    private String phoneNumber;
+
+    @NotNull(message = "Preferred vehicles are required")
+    @Size(min = 1, message = "At least one preferred vehicle must be specified")
+    private List<VehicleType> preferredVehicles;
+
+    @NotNull(message = "Status is required")
+    private Status status = Status.INACTIVE;
+
     public enum Status {
-        active, inactive
+        ACTIVE, INACTIVE
     }
 
     public enum VehicleType {
-        bus, microbus
-    }
-
-    @Getter
-    @Setter
-    private String status = String.valueOf(Status.inactive);
-
-    @NotNull(message = "preferredVehicle is required")
-    @Size(min = 1, message = "At least one preferred vehicle must be specified")
-    @Getter
-    @Setter
-    private List<VehicleType> preferredVehicle = new java.util.ArrayList<>();
-
-    @Getter
-    @Setter
-    private String phoneNumber;
-    @Setter
-    @Getter
-    private String email;
-
-    public List<VehicleType> getPreferredVehicles() {
-        return preferredVehicle;
+        BUS, MICROBUS
     }
 }
