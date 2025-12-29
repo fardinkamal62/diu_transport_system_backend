@@ -14,7 +14,7 @@ $$$$$$$  |$$$$$$\ \$$$$$$  |         $$ |$$ |     \$$$$$$$ |$$ |  $$ |$$$$$$$  |
 
 # DIU Transport System Backend
 
-Version: 0.1.1-SNAPSHOT
+Version: 0.1.2-SNAPSHOT
 
 ## 🌟 Project Overview
 

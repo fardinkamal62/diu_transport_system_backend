@@ -1,6 +1,12 @@
 # Changelog
 
-## [0.1.1-SNAPSHOT] - 14-10-2025 [Current]
+## [0.1.2-SNAPSHOT] - 29-12-2025 [Current]
+
+### Refactor
+
+- Enhanced DTOs with validation, improve error handling, and update response structures
+
+## [0.1.1-SNAPSHOT] - 14-10-2025
 
 ### Refactor
 
