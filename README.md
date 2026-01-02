@@ -14,7 +14,7 @@ $$$$$$$  |$$$$$$\ \$$$$$$  |         $$ |$$ |     \$$$$$$$ |$$ |  $$ |$$$$$$$  |
 
 # DIU Transport System Backend
 
-Version: 0.1.2-SNAPSHOT
+Version: 1.0.0-SNAPSHOT
 
 ## 🌟 Project Overview
 
@@ -89,16 +89,7 @@ The Socket.IO server operates on port 8085 (default configuration).
 
 ## 🔒 Environment Variables
 
-Required environment variables:
-
-```
-DB_PASSWORD=strong-password
-DB_URL=jdbc:postgresql://localhost:5432/diu_transport_system
-DB_USERNAME=postgres
-REDIS_HOST=localhost
-REDIS_PORT=6379
-JWT_SECRET=your_super_secret_strong_key
-```
+Check the [.env.example](.env.example) file for the required environment variables. Create a `.env` file in the root directory and set the variables
 
 ## 📂 Project Structure
 

@@ -1,6 +1,17 @@
 # Changelog
 
-## [0.1.2-SNAPSHOT] - 29-12-2025 [Current]
+## [1.0.0-SNAPSHOT] - 02-01-2026 [Current]
+
+### Breaking Changes
+
+- Implemented API versioning, updated all endpoints to include version prefix (/api/v1/)
+- Added separate properties files for different environments (development, production)
+
+### Added
+
+- Logging files and better logging on terminal
+
+## [0.1.2-SNAPSHOT] - 29-12-2025
 
 ### Refactor
 

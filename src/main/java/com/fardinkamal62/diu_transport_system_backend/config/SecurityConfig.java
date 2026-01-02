@@ -36,8 +36,11 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/auth/**", "/actuator/health", "/api/public/**").permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        // Allow all auth endpoints (both versioned and legacy)
+                        .requestMatchers("/api/auth/**", "/api/v1/auth/**", "/api/v*/auth/**").permitAll()
+                        .requestMatchers("/actuator/health", "/api/public/**").permitAll()
+                        // Admin endpoints require ADMIN role
+                        .requestMatchers("/api/admin/**", "/api/v1/admin/**", "/api/v*/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

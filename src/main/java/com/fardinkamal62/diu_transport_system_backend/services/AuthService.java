@@ -4,6 +4,8 @@ import com.fardinkamal62.diu_transport_system_backend.dtos.AdminLoginRequestDto;
 import com.fardinkamal62.diu_transport_system_backend.dtos.AuthResponseDto;
 import com.fardinkamal62.diu_transport_system_backend.entities.User;
 import com.fardinkamal62.diu_transport_system_backend.security.JwtUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,6 +17,7 @@ import java.util.Arrays;
 @Service
 public class AuthService {
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
 

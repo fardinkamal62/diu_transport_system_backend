@@ -1,4 +1,4 @@
-package com.fardinkamal62.diu_transport_system_backend.controllers;
+package com.fardinkamal62.diu_transport_system_backend.controllers.v1;
 
 import com.fardinkamal62.diu_transport_system_backend.dtos.AddDriverDtoRequest;
 import com.fardinkamal62.diu_transport_system_backend.dtos.AddDriverResponseDto;
@@ -12,7 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/api/v1/admin")
 public class AdminController {
     private final DriverService driverService;
 
